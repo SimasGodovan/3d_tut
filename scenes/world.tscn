@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://v22xdcui1ls3"]
+[gd_scene load_steps=16 format=3 uid="uid://v22xdcui1ls3"]
 
 [ext_resource type="Texture2D" uid="uid://c8arnlq67qi7" path="res://assets/textures/grids/Dark/texture_05.png" id="1_sjbtt"]
 [ext_resource type="Texture2D" uid="uid://cm5m7nr7dugjd" path="res://assets/textures/grids/Purple/texture_09.png" id="2_e5xwm"]
 [ext_resource type="Texture2D" uid="uid://djg8y25y06h5n" path="res://assets/textures/grids/Green/texture_09.png" id="3_6lfva"]
 [ext_resource type="Texture2D" uid="uid://b58xv1joypxo5" path="res://assets/textures/grids/Orange/texture_09.png" id="4_0bbhf"]
 [ext_resource type="PackedScene" uid="uid://pyevp834p6bc" path="res://scenes/player.tscn" id="5_b3p3g"]
+[ext_resource type="PackedScene" uid="uid://32px4gnv0l6r" path="res://assets/models/base.glb" id="6_mxoj6"]
+[ext_resource type="AnimationLibrary" uid="uid://dmakekv8oedxb" path="res://assets/animations/JumpAnimations.res" id="7_mpskc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fw5gg"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,6 +38,9 @@ uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q2i7u"]
 albedo_texture = ExtResource("4_0bbhf")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f86xi"]
+size = Vector3(1.99658, 1, 0.415802)
 
 [node name="World" type="Node3D"]
 
@@ -72,3 +77,19 @@ material_override = SubResource("StandardMaterial3D_q2i7u")
 use_collision = true
 
 [node name="Player" parent="." instance=ExtResource("5_b3p3g")]
+
+[node name="Character" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6315, 0, 0)
+
+[node name="Base" parent="Character" instance=ExtResource("6_mxoj6")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Character/Base"]
+libraries = {
+"JumpAnimations": ExtResource("7_mpskc")
+}
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Character"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.034219, 1, -0.0149431)
+shape = SubResource("BoxShape3D_f86xi")
